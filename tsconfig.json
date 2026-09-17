@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES2022",                          /* Сучасний стандарт JS, сумісний з актуальними Node.js */
-    "module": "NodeNext",                        /* Найкращий вибір для ESM у Node.js */
-    "moduleResolution": "NodeNext",              /* Дозволяє коректно розпізнавати модулі */
+    "target": "ES2022",                      
+    "module": "NodeNext",                     
+    "moduleResolution": "NodeNext",             
     
-    "rootDir": "./src",                          /* Де лежить ваш вихідний код TypeScript */
-    "outDir": "./dist",                          /* Куди компілювати готовий JavaScript для продакшну */
-
-    "strict": true,                              /* Вмикає всі суворі перевірки типів (обов'язково!) */
-    "noImplicitAny": true,                       /* Забороняє неявний тип 'any' */
-    "strictNullChecks": true,                    /* Захищає від помилок "cannot read property of undefined" */
+    "rootDir": "./src",                          
+    "outDir": "./dist",                          
+    "strict": true,                             
+    "noImplicitAny": true,                       
+    "strictNullChecks": true,                   
     
-    "esModuleInterop": true,                     /* Дозволяє імпортувати CommonJS модулі через import */
-    "skipLibCheck": true,                        /* Прискорює компіляцію, пропускаючи перевірку типів у node_modules */
-    "forceConsistentCasingInFileNames": true     /* Запобігає проблемам з регістром літер у назвах файлів (Windows vs Linux) */
+    "esModuleInterop": true,                    
+    "skipLibCheck": true,                        
+    "forceConsistentCasingInFileNames": true     
   },
-  "include": ["src/**/*"],                       /* Які файли компілювати */
-  "exclude": ["node_modules", "dist"]            /* Що ігнорувати */
+  "include": ["src/**/*"],                       
+  "exclude": ["node_modules", "dist"]            
 }
