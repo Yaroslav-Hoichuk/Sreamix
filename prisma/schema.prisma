@@ -6,3 +6,147 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+
+/* User model for the person interacting with the service */
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String?
+  age Int
+  createdAt DateTime @default(now())
+  userStatus String @default("FREE")
+  role String @default("USER") 
+  historyTransaction Transaction[] // an entity that structures the purchase of a service for the user 
+  ratings Rating[]
+
+  bookmark BookMark[]
+  userPaymentInfo PaymentInfo[]
+}
+
+model Transaction{
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  purchaseInfo Purchase[]
+}
+
+model Purchase{
+  id String @id @default(cuid())
+  payAmount Decimal @db.Decimal(6,2)
+
+  transactionId String
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+
+  itemId String
+  item Movie @relation(fields: [itemId], references: [id])
+}
+
+model Movie{
+  id String @id @default(cuid())
+  name String
+  year Int
+  ageBan Int
+  description String
+  trailerLink String
+  previewImagesLink String[]
+  languages String[]
+  tags String[]
+  isSerial Boolean
+  accessPrice Int
+
+  purchases Purchase[]
+  rating Rating[]
+  actors MovieActor[]
+  bookmark BookMark[]
+
+  directorId String
+  director Director @relation(fields: [directorId], references: [id])
+
+}
+
+model Rating{
+  id String @id @default(cuid())
+  value Int
+  comment String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id])
+  @@unique([userId, movieId])
+}
+
+model Actor{
+  id String @id @default(cuid())
+  avatar String
+  firstname String
+  lastname String
+  middlename String?
+  birthDate DateTime
+  bio String @db.VarChar(255)
+  photos String[]
+  
+  rewards Award[]
+
+  movies MovieActor[]
+}
+
+model MovieActor{
+  movieId String
+  actorId String
+
+  movie Movie @relation(fields: [movieId], references: [id])
+  actor Actor @relation(fields: [actorId], references: [id])
+  @@id([movieId, actorId])
+}
+
+model Award{
+  id String @id @default(cuid())
+  name String
+  year Int
+
+  actorId String?
+  actor Actor? @relation(fields: [actorId], references: [id])
+
+  directorId String?
+  director Director? @relation(fields: [directorId], references: [id])
+}
+
+model Director{
+  id String @id @default(cuid())
+  avatar String
+  firstname String
+  lastname String
+  middlename String?
+  birthDate DateTime
+  bio String @db.VarChar(255)
+  photos String[]
+  
+  rewards Award[]
+  movies Movie[]
+}
+
+model BookMark {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id])
+  @@unique([userId, movieId])
+}
+
+model PaymentInfo{
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  cardNumber String
+}
